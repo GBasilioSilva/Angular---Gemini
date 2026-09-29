@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:ital,wght@0,400;0,500;1,500&display=swap');
+@import './app/planner.css';
+
+:root {
+	color-scheme: light;
+	--paper: #fffefa;
+	--canvas: #f8f8f3;
+	--ink: #202a25;
+	--muted: #7c847c;
+	--forest: #265549;
+	--coral: #dc6a51;
+	--line: #e6e8e0;
+	--display: 'Fraunces', Georgia, serif;
+	--body: 'DM Sans', sans-serif;
+	font-family: var(--body);
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	background: var(--canvas);
+	color: var(--ink);
+}
+
+* { box-sizing: border-box; }
+body { min-width: 320px; min-height: 100vh; margin: 0; }
+app-root { display: block; }
+button, input, textarea { font: inherit; }
+::selection { background: #d9e8df; color: var(--forest); }

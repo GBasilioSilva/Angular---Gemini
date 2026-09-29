@@ -1,3 +1,59 @@
-**PROJETO PARA ESTUDO DA INTEGRAÇÃO DO GEMINI COM ANGULAR
--> AO CLONAR O PROJETO NÃO SE ESQUEÇA DE UTILIZAR O COMANDO NPM INSTALL - PARA ATUALIZAR/BAIXAR AS BIBLIOTECAS
--> TUDO ESTÁ NO NÍVEL DE TESTE AIN, SINTA-SE A VONTADE APRA CONTRIBUIR/CORRIGIR, OBRIGADO!
+# Portfólio Web com Gemini
+
+Aplicação em desenvolvimento para ajudar uma pessoa a planejar um projeto web autoral e apresentá-lo como um bom item de portfólio. O Gemini deve produzir um plano realista a partir do perfil, dos interesses, das tecnologias conhecidas e do tempo disponível.
+
+## Objetivo do produto
+
+Gerar um plano que possa ser executado e depois apresentado como estudo de caso. O plano deve incluir problema, público, escopo inicial, funcionalidades, tecnologias justificadas, etapas e pontos que valorizem o portfólio. A ferramenta recomenda um projeto; ela não deve inventar experiência ou habilidades para a pessoa.
+
+## Arquitetura prevista
+
+- **Frontend:** Angular em `client/`, responsável pelo formulário, apresentação do plano e estados de carregamento, erro e nova geração.
+- **Backend:** Node.js e TypeScript, responsável pela API e pela integração com o Gemini por meio do Genkit.
+- **Contrato:** entrada e resposta estruturadas e validadas no backend. A chave `GEMINI_API_KEY` fica somente no servidor, nunca no Angular.
+
+Estrutura alvo, a ser introduzida gradualmente sem descartar o exemplo atual:
+
+```text
+client/                 Aplicação Angular
+server/
+	src/
+		flows/              Flows Genkit
+		schemas/            Contratos de entrada e saída
+		routes/             API consumida pelo Angular
+```
+
+## Plano de implementação
+
+1. **Contrato e geração do plano (iniciado):** definir os dados de entrada e a resposta estruturada e criar o flow Genkit em português. O primeiro flow está em `src/project-plan.ts`.
+2. **API segura:** expor o flow por um endpoint HTTP, validar entradas, configurar `GEMINI_API_KEY` no servidor e devolver erros previsíveis sem expor segredos.
+3. **Aplicação Angular (iniciada):** app em `client/` com formulário responsivo e prévia local demonstrativa. Falta integrar com a API para gerar planos com Gemini.
+4. **Fluxo de trabalho do usuário:** permitir revisar os dados, gerar novamente e exportar/copiar o plano; cobrir carregamento, erros e formulário inválido.
+5. **Qualidade e publicação:** adicionar testes para schemas e API, validar responsividade e acessibilidade, documentar configuração e preparar deploy separado do frontend e backend.
+
+## Critérios do primeiro MVP
+
+- A pessoa consegue informar perfil, objetivo, interesses, tecnologias e disponibilidade semanal.
+- A resposta inclui proposta, problema, público, funcionalidades do MVP, stack com justificativas, cronograma e tópicos para o estudo de caso.
+- O plano cabe no prazo informado e não presume habilidades que não foram fornecidas.
+- A chave do Gemini nunca é enviada ao navegador.
+
+## Estado atual e próximos comandos
+
+O repositório contém o protótipo Genkit na raiz e a aplicação Angular em `client/`. `src/index.ts` contém o exemplo anterior de geração de receitas; ele foi mantido isolado. O flow de portfólio está em `src/project-plan.ts`. Ainda não há API HTTP: a tela Angular exibe uma prévia local identificada como demonstração e não chama o Gemini.
+
+Para instalar as dependências do protótipo Genkit na raiz:
+
+```bash
+npm install
+```
+
+Para iniciar a aplicação Angular:
+
+```bash
+cd client
+npm install
+npm start
+```
+
+Não coloque chaves de API no frontend nem em arquivos versionados. A integração com o Gemini será feita pelo backend.

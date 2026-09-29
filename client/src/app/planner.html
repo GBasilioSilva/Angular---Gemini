@@ -1,0 +1,178 @@
+<main class="workspace">
+  <header class="topbar">
+    <a class="wordmark" href="#inicio" aria-label="Projeto em prática, início">
+      <span class="wordmark-mark" aria-hidden="true">p.</span>
+      <span>projeto<span class="wordmark-light">em prática</span></span>
+    </a>
+    <div class="topbar-meta">
+      <span class="status-dot" aria-hidden="true"></span>
+      <span>ESTÚDIO DE PROJETOS</span>
+      <span class="meta-divider" aria-hidden="true"></span>
+      <span class="version-label">BETA 01</span>
+    </div>
+  </header>
+
+  <section class="intro" id="inicio" aria-labelledby="page-title">
+    <div>
+      <p class="eyebrow"><span>01</span> DA IDEIA AO PORTFÓLIO</p>
+      <h1 id="page-title">Um bom projeto<br />começa com <em>um plano.</em></h1>
+      <p class="intro-copy">Conte um pouco sobre você. Vamos organizar uma ideia que mostre como você pensa, constrói e resolve problemas.</p>
+    </div>
+    <div class="intro-stamp" aria-label="Desenvolvido para projetos com propósito">
+      <span class="stamp-star" aria-hidden="true">✳</span>
+      <span>FEITO PARA<br />IR ALÉM DO<br />TUTORIAL</span>
+    </div>
+  </section>
+
+  <div class="workspace-grid">
+    <section class="form-panel" aria-labelledby="form-title">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">SEU PONTO DE PARTIDA</p>
+          <h2 id="form-title">Vamos desenhar seu próximo projeto.</h2>
+        </div>
+        <span class="step-count">01 <span>/ 02</span></span>
+      </div>
+
+      <form #planForm="ngForm" (ngSubmit)="generateDemoPlan()">
+        <label class="field">
+          <span class="field-label">Em que momento você está?</span>
+          <span class="field-hint">Seu contexto ajuda a calibrar o desafio.</span>
+          <textarea
+            name="profile"
+            [(ngModel)]="profile"
+            required
+            minlength="10"
+            rows="3"
+            placeholder="Ex.: Estou migrando de design para desenvolvimento e já fiz alguns projetos com JavaScript."
+          ></textarea>
+        </label>
+
+        <label class="field">
+          <span class="field-label">O que quer demonstrar?</span>
+          <span class="field-hint">Pense no tipo de oportunidade que procura.</span>
+          <textarea
+            name="objective"
+            [(ngModel)]="objective"
+            required
+            minlength="5"
+            rows="2"
+            placeholder="Ex.: Quero mostrar que consigo criar uma experiência completa com Angular."
+          ></textarea>
+        </label>
+
+        <div class="field-row">
+          <label class="field">
+            <span class="field-label">Assuntos que despertam sua curiosidade</span>
+            <input name="interests" [(ngModel)]="interests" required placeholder="Ex.: música, clima, educação" />
+            <span class="input-note">Separe por vírgulas</span>
+          </label>
+          <label class="field">
+            <span class="field-label">Tecnologias que já conhece</span>
+            <input name="technologies" [(ngModel)]="technologies" placeholder="Ex.: Angular, Figma, Node.js" />
+            <span class="input-note">Pode incluir ferramentas</span>
+          </label>
+        </div>
+
+        <div class="field-row availability-row">
+          <label class="field range-field">
+            <span class="field-label">Prazo para construir</span>
+            <span class="range-control">
+              <input name="availableWeeks" [(ngModel)]="availableWeeks" type="range" min="1" max="12" />
+              <strong>{{ availableWeeks }} <small>semanas</small></strong>
+            </span>
+          </label>
+          <label class="field range-field">
+            <span class="field-label">Tempo por semana</span>
+            <span class="range-control">
+              <input name="weeklyHours" [(ngModel)]="weeklyHours" type="range" min="1" max="20" />
+              <strong>{{ weeklyHours }} <small>horas</small></strong>
+            </span>
+          </label>
+        </div>
+
+        <div class="form-footer">
+          <p><span class="privacy-mark" aria-hidden="true">↳</span> Seus dados ficam neste navegador nesta prévia.</p>
+          <button class="primary-button" type="submit" [disabled]="planForm.invalid">
+            Montar prévia <span aria-hidden="true">↗</span>
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <aside class="result-panel" aria-labelledby="result-title">
+      <div class="result-topline">
+        <span class="result-index">02</span>
+        <span class="preview-label"><span aria-hidden="true">●</span> PRÉVIA LOCAL</span>
+      </div>
+
+      @if (plan(); as currentPlan) {
+        <div class="plan-content" aria-live="polite">
+          <p class="eyebrow">DIREÇÃO DO PROJETO</p>
+          <h2 id="result-title">{{ currentPlan.title }}</h2>
+          <p class="plan-pitch">{{ currentPlan.pitch }}</p>
+
+          <div class="result-section">
+            <h3>Oportunidade</h3>
+            <p>{{ currentPlan.problem }}</p>
+          </div>
+          <div class="result-section">
+            <h3>Para quem</h3>
+            <p>{{ currentPlan.audience }}</p>
+          </div>
+          <div class="result-section">
+            <h3>Disponibilidade</h3>
+            <p>{{ currentPlan.availability }}</p>
+          </div>
+          <div class="result-section">
+            <h3>Stack de partida</h3>
+            <div class="tag-list">
+              @for (technology of currentPlan.technologies; track technology) {
+                <span class="technology-tag">{{ technology }}</span>
+              }
+            </div>
+          </div>
+          <div class="result-section">
+            <h3>Ritmo sugerido</h3>
+            <ol class="milestone-list">
+              @for (milestone of currentPlan.milestones; track milestone.title; let index = $index) {
+                <li>
+                  <span class="milestone-number">0{{ index + 1 }}</span>
+                  <span><strong>{{ milestone.title }}</strong><small>{{ milestone.durationWeeks }} sem. · {{ milestone.outcome }}</small></span>
+                </li>
+              }
+            </ol>
+          </div>
+          <div class="case-study-note">
+            <span aria-hidden="true">✳</span>
+            <p><strong>Já pensando na apresentação</strong>{{ currentPlan.caseStudySections.join(' · ') }}</p>
+          </div>
+          <p class="demo-disclaimer">Rascunho demonstrativo baseado nos campos acima. Ainda não foi gerado pelo Gemini.</p>
+        </div>
+      } @else {
+        <div class="empty-preview">
+          <div class="orbit-mark" aria-hidden="true"><span></span><span></span><span></span></div>
+          <p class="eyebrow">SUA IDEIA VAI APARECER AQUI</p>
+          <h2 id="result-title">O espaço entre<br />imaginar e fazer.</h2>
+          <p>Preencha seu contexto e monte uma prévia do plano. O resultado completo com Gemini entra na próxima etapa, via API protegida.</p>
+          <div class="preview-checklist">
+            <span><i aria-hidden="true">01</i> Uma ideia com recorte claro</span>
+            <span><i aria-hidden="true">02</i> Etapas no seu ritmo</span>
+            <span><i aria-hidden="true">03</i> História para contar no portfólio</span>
+          </div>
+        </div>
+      }
+
+      <div class="connection-note">
+        <span class="connection-icon" aria-hidden="true">✳</span>
+        <span><strong>Gemini ainda não conectado</strong><small>A chave fica no servidor, nunca no navegador.</small></span>
+        <span class="connection-state">PRÓXIMA ETAPA</span>
+      </div>
+    </aside>
+  </div>
+
+  <footer class="page-footer">
+    <span>IDEIAS BOAS MERECEM SER CONSTRUÍDAS.</span>
+    <span>PROJETO EM PRÁTICA <span class="footer-dot">·</span> 2026</span>
+  </footer>
+</main>
